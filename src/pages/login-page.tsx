@@ -13,8 +13,8 @@ import { useToast } from "./../components/ui/use-toast"
 import { ClipboardList } from "lucide-react"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("admin@admin.com")
+  const [password, setPassword] = useState("123123")
   const [loading, setLoading] = useState(false)
   const { toast } = useToast()
 

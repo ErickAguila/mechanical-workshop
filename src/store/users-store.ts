@@ -47,11 +47,20 @@ export const useUsersStore = create<UsersState>((set, get) => ({
   addUser: async (user) => {
     set({ loading: true, error: null })
     try {
-      await addDoc(collection(db, "users"), {
-        ...user,
-        createdAt: new Date(),
-      })
-      console.log('Usuario creado con éxito en Firestore');
+      const querySnapshot = await getDocs(collection(db, "users"));
+      const usersData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      if (usersData.length >= 5) {
+        set({ error: "No puedes agregar más usuarios", loading: false })
+      } else {
+        await addDoc(collection(db, "users"), {
+          ...user,
+          createdAt: new Date(),
+        })
+        console.log('Usuario creado con éxito en Firestore');
+      }
 
       await get().fetchUsers()
     } catch (error) {

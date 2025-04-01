@@ -43,10 +43,19 @@ export const useVehiclesStore = create<VehiclesState>((set, get) => ({
   addVehicle: async (vehicle) => {
     set({ loading: true, error: null })
     try {
-      await addDoc(collection(db, "vehicles"), {
-        ...vehicle,
-        createdAt: new Date(),
-      })
+      const querySnapshot = await getDocs(collection(db, "vehicles"));
+      const vehiclesData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      if (vehiclesData.length >= 5) {
+        set({ error: "No puedes agregar más vehículos", loading: false })
+      } else {
+        await addDoc(collection(db, "vehicles"), {
+          ...vehicle,
+          createdAt: new Date(),
+        })
+      }
       await get().fetchVehicles()
     } catch (error) {
       set({ error: (error as Error).message, loading: false })

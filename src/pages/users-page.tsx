@@ -31,7 +31,7 @@ export default function UsersPage() {
     rut: "",
     name: "",
     lastname: "",
-    email: "@tecnico.com",
+    email: "",
     password: "",
     role: "technician" as UserRole,
   })
@@ -46,7 +46,7 @@ export default function UsersPage() {
       rut: "",
       name: "",
       lastname: "",
-      email: "@tecnico.com",
+      email: "",
       password: "",
       role: "technician",
     })
@@ -151,7 +151,7 @@ export default function UsersPage() {
                     id="rut"
                     value={formData.rut}
                     maxLength={12}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, rut: e.target.value })}
                     required
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function UsersPage() {
                     id="lastname"
                     value={formData.lastname}
                     maxLength={50}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
                     required
                   />
                 </div>
@@ -181,7 +181,6 @@ export default function UsersPage() {
                     id="email"
                     type="email"
                     maxLength={100}
-                    readOnly={true}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
@@ -234,6 +233,7 @@ export default function UsersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Rut</TableHead>
                   <TableHead>Nombre</TableHead>
                   <TableHead>Correo electrónico</TableHead>
                   <TableHead>Rol</TableHead>
@@ -251,7 +251,8 @@ export default function UsersPage() {
                 ) : (
                   users.map((user) => (
                     <TableRow key={user.id}>
-                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.rut}</TableCell>
+                      <TableCell>{`${user.name} ${user.lastname}`}</TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.role === "admin" ? "Administrador" : "Técnico"}</TableCell>
                       <TableCell>{user.createdAt.toLocaleDateString()}</TableCell>
